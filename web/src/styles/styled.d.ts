@@ -10,6 +10,7 @@ declare module 'styled-components' {
       ghostWhite: string;
       blue: string;
       chatBackground: string;
+      greyGreyDark: string;
     };
 
     font: {

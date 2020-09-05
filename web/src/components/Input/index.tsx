@@ -14,5 +14,4 @@ export const Input: React.FC<IFieldContainerProps> = ({ label, id, ...props }) =
       <input id={id} {...props} />
     </Container>
   );
-
 }

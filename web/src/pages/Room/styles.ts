@@ -38,7 +38,7 @@ export const Content = styled.main`
     }
 
     button {
-      width: 8.6rem;
+      width: 12.6rem;
       height: 4rem;
       margin-left: 0.8rem;
       border-radius: 1.2rem;
@@ -47,10 +47,15 @@ export const Content = styled.main`
 `;
 
 export const Chat = styled.div`
+  display: flex;
+  flex-direction: column;
+
   flex: 1;
   width: 100%;
   height: 100vh;
   overflow: auto;
+
+  padding-right: 1.4rem;
 
   &::-webkit-scrollbar{
     background-color: none;
@@ -74,28 +79,4 @@ export const Chat = styled.div`
     display:none
   }
 
-`;
-
-export const Message = styled.div`
-  padding: 1.2rem;
-  border-radius: 1.2rem;
-
-  background-color: ${props => props.theme.colors.greenDark};
-
-  max-width: 40%;
-
-  span {
-    font-size: 1.4rem;
-  }
-
-  p {
-    line-height: 2.4rem;
-    font-size: 1.6rem;
-    font-weight: 400;
-    margin-top: 0.8rem;
-  }
-
-  & + & {
-    margin-top: 1.2rem;
-  }
 `;

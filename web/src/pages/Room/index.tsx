@@ -5,8 +5,9 @@ import { getRoomData } from '../../services/socket';
 import { useRoom } from '../../context/Room';
 import { PrimaryButton } from '../../components/Buttons';
 import Menu from '../../components/Menu';
+import Message from '../../components/Message';
 
-import { Container, Content, Chat, Message } from './styles';
+import { Container, Content, Chat } from './styles';
 
 const Room: React.FC = () => {
   const { setRoom } = useRoom();
@@ -29,10 +30,7 @@ const Room: React.FC = () => {
 
       <Content>
         <Chat>
-          <Message>
-            <span>Helvécio</span>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum saepe ipsam excepturi minima molestiae.</p>
-          </Message>
+          <Message myself author="Helvécio" message="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam odit totam enim excepturi nostrum veritatis et iusto nihil nobis." />
         </Chat>
 
         <form onSubmit={handleSubmit}>
