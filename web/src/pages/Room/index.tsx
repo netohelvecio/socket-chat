@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useEffect, FormEvent } from 'react';
 
-import { getRoomData, leaveRoom } from '../../services/socket';
+import { getRoomData } from '../../services/socket';
 
 import { useRoom } from '../../context/Room';
 import { PrimaryButton } from '../../components/Buttons';
+import Menu from '../../components/Menu';
 
-import { Container, Menu, UsersList, Content, Chat, Message } from './styles';
+import { Container, Content, Chat, Message } from './styles';
 
 const Room: React.FC = () => {
-  const { room, setRoom } = useRoom();
-  const { roomId } = useParams();
-  const history = useHistory();
+  const { setRoom } = useRoom();
 
   useEffect(() => {
     getRoomData(room => {
@@ -19,37 +17,15 @@ const Room: React.FC = () => {
     });
   }, []);
 
-  function handleSingOut() {
-    leaveRoom({ roomId });
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
 
-    getRoomData(room => {
-      setRoom(room);
-    });
-
-    history.push('/');
+    console.log('foi');
   }
 
   return (
     <Container>
-      <Menu>
-        <div>
-          <h1>{room.name}</h1>
-
-          <p>{room.users?.length} pessoas online</p>
-
-          <UsersList>
-            {room.users?.map(user => (
-              <li key={user.id} >
-                <span>{user.name}</span>
-
-                <img src={`https://api.adorable.io/avatars/100/${user.name}.png`} alt="Helvécio"/>
-              </li>
-            ))}
-          </UsersList>
-        </div>
-
-        <PrimaryButton onClick={handleSingOut}>Sair da sala</PrimaryButton>
-      </Menu>
+      <Menu />
 
       <Content>
         <Chat>
@@ -59,10 +35,10 @@ const Room: React.FC = () => {
           </Message>
         </Chat>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <input type="text"/>
 
-          <PrimaryButton>Enviar</PrimaryButton>
+          <PrimaryButton type="submit">Enviar</PrimaryButton>
         </form>
       </Content>
     </Container>
