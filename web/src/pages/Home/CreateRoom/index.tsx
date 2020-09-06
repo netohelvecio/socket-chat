@@ -4,6 +4,7 @@ import { ThemeContext } from 'styled-components';
 import { FiArrowLeft } from 'react-icons/fi';
 
 import { useRoom } from '../../../context/Room';
+import { useUser } from '../../../context/User';
 import api from '../../../services/api';
 import { createOrJoinRoom, getRoomData } from '../../../services/socket';
 
@@ -19,10 +20,10 @@ interface ICreateRoomProps {
 const CreateRoom: React.FC<ICreateRoomProps> = ({ setStep }) => {
   const [roomId, setRoomId] = useState('');
   const [roomName, setRoomName] = useState('');
-  const [userName, setUserName] = useState('');
   const [loading, setLoading] = useState(false);
   const { colors } = useContext(ThemeContext);
   const { setRoom } = useRoom();
+  const { setUser, user } = useUser();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,7 +37,7 @@ const CreateRoom: React.FC<ICreateRoomProps> = ({ setStep }) => {
 
       setRoomId(response.data.roomId);
 
-      createOrJoinRoom({ roomId: response.data.roomId, userName });
+      createOrJoinRoom({ roomId: response.data.roomId, userName: user });
 
       getRoomData(room => {
         setRoom(room);
@@ -57,7 +58,7 @@ const CreateRoom: React.FC<ICreateRoomProps> = ({ setStep }) => {
       </Header>
 
       <form onSubmit={handleSubmit}>
-        <Input id="nickname" label="Nickname" value={userName} onChange={event => setUserName(event.target.value)} />
+        <Input id="nickname" label="Nickname" value={user} onChange={event => setUser(event.target.value)} />
 
         <Input id="room-name" label="Nome da sala" value={roomName} onChange={event => setRoomName(event.target.value)} />
 

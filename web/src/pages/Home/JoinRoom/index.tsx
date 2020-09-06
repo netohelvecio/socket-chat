@@ -7,6 +7,7 @@ import { createOrJoinRoom, getRoomData } from '../../../services/socket';
 import api from '../../../services/api';
 
 import { useRoom } from '../../../context/Room';
+import { useUser } from '../../../context/User';
 import { PrimaryButton } from '../../../components/Buttons';
 import { Input } from '../../../components/Input';
 
@@ -18,11 +19,11 @@ interface IJoinRoomProps {
 
 const JoinRoom: React.FC<IJoinRoomProps> = ({ setStep }) => {
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState('');
   const [roomId, setRoomId] = useState('');
   const { colors } = useContext(ThemeContext);
   const history = useHistory();
   const { setRoom } = useRoom();
+  const { user, setUser } = useUser();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -32,7 +33,7 @@ const JoinRoom: React.FC<IJoinRoomProps> = ({ setStep }) => {
     try {
       await api.get(`room/${roomId}`);
 
-      createOrJoinRoom({ roomId, userName });
+      createOrJoinRoom({ roomId, userName: user });
 
       getRoomData(room => {
         setRoom(room);
@@ -55,7 +56,7 @@ const JoinRoom: React.FC<IJoinRoomProps> = ({ setStep }) => {
       </Header>
 
       <form onSubmit={handleSubmit}>
-        <Input id="nickname" label="Nickname" value={userName} onChange={event => setUserName(event.target.value)}/>
+        <Input id="nickname" label="Nickname" value={user} onChange={event => setUser(event.target.value)}/>
 
         <Input id="room-id" label="ID da sala" value={roomId} onChange={event => setRoomId(event.target.value)}/>
 

@@ -10,7 +10,7 @@ routes.post('/room', (request, response) => {
 
   const id = uuid();
 
-  rooms.set(id, { id, name: roomName, users: []});
+  rooms.set(id, { id, name: roomName, users: [], messages: []});
 
   return response.json({ roomId: id });
 });

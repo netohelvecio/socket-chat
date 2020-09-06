@@ -3,10 +3,17 @@ export interface IUser {
   name: string;
 }
 
+export interface IMessage {
+  clientId: string;
+  author: string;
+  message: string;
+}
+
 export interface IRoom {
   id: string;
   name: string;
   users: IUser[];
+  messages: IMessage[];
 }
 
 export interface ICreateRoom {
@@ -17,4 +24,11 @@ export interface ICreateRoom {
 export interface ILeaveRoom {
   userId: string;
   roomId: string;
+}
+
+export interface ISendMessage {
+  roomId: string;
+  clientId: string;
+  author: string;
+  message: string;
 }

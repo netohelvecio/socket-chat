@@ -3,7 +3,7 @@ import socket from 'socket.io';
 
 import app from 'app';
 import { rooms } from 'data';
-import { ICreateRoom, ILeaveRoom } from './@types/interfaces';
+import { ICreateRoom, ILeaveRoom, ISendMessage } from './@types/interfaces';
 
 const server = http.createServer(app);
 const io = socket(server);
@@ -34,6 +34,20 @@ io.on('connection', socket => {
       rooms.get(socket.roomId)?.users.splice(userIndex, 1);
 
       socket.leave(socket.roomId);
+
+      io.to(socket.roomId).emit('roomInfo', rooms.get(socket.roomId));
+    }
+  });
+
+  socket.on('sendMessage', (sendMessage: ISendMessage) => {
+    const { roomId, clientId, author, message } =  sendMessage;
+
+    socket.roomId = roomId;
+
+    const room = rooms.get(socket.roomId);
+
+    if (room) {
+      room.messages.push({ clientId, author, message });
 
       io.to(socket.roomId).emit('roomInfo', rooms.get(socket.roomId));
     }
