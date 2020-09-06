@@ -30,3 +30,8 @@ export interface ISendMessage {
   author: string;
   message: string;
 }
+
+export interface IStatusUser {
+  userName: string;
+  status: 'join' | 'leave' | 'idle';
+}

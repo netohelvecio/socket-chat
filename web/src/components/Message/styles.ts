@@ -9,7 +9,7 @@ export const Container = styled.div<IContainerProps>`
   border-radius: 1.2rem;
   align-self: ${props => props.myself ? 'flex-end' : 'flex-start'};
 
-  background-color: ${props => props.myself ? props.theme.colors.greyGreyDark : props.theme.colors.greenDark};
+  background-color: ${props => props.myself ? props.theme.colors.greyGreenDark : props.theme.colors.greenDark};
 
   max-width: 40%;
 

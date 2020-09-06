@@ -1,26 +1,37 @@
 import React, { useEffect, FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { getRoomData, sendMessage, socket } from '../../services/socket';
+import { getRoomData, sendMessage, socket, userJoined, userLeaved } from '../../services/socket';
 
 import { useRoom } from '../../context/Room';
+import { useUser } from '../../context/User';
+
 import { PrimaryButton } from '../../components/Buttons';
 import Menu from '../../components/Menu';
 import Message from '../../components/Message';
+import JoinOrLeaveCard from '../../components/JoinOrLeaveCard';
+
+import { IStatusUser } from '../../interfaces';
 
 import { Container, Content, Chat } from './styles';
-import { useUser } from '../../context/User';
 
 const Room: React.FC = () => {
   const { room, setRoom } = useRoom();
   const { user } = useUser();
   const [ message, setMessage ] = useState('');
+  const [ usersInfoChat, setUsersInfoChat ] = useState<IStatusUser>({ userName: '', status: 'idle' });
   const { roomId } = useParams<{ roomId: string }>();
 
   useEffect(() => {
     getRoomData(room => {
       setRoom(room);
     });
+  }, []);
+
+  useEffect(() => {
+    userJoined(user => setUsersInfoChat({ userName: user, status: 'join' }));
+    userLeaved(user => setUsersInfoChat({ userName: user, status: 'leave' }));
+    setUsersInfoChat({ userName: '', status: 'idle' });
   }, []);
 
   function handleSubmit(e: FormEvent) {
@@ -42,8 +53,10 @@ const Room: React.FC = () => {
       <Content>
         <Chat>
           {room.messages?.map((message, index) => (
-            <Message key={index} myself={message.clientId === socket.id} author={message.author} message={message.message} />
+              <Message key={index} myself={message.clientId === socket.id} author={message.author} message={message.message} />
           ))}
+
+          {/* {usersInfoChat.status !== 'idle' && <JoinOrLeaveCard userName={usersInfoChat.userName} status={usersInfoChat.status} />} */}
         </Chat>
 
         <form onSubmit={handleSubmit}>

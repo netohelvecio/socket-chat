@@ -24,3 +24,11 @@ export function sendMessage(data: ISendMessage) {
 
   socket.emit('sendMessage', { roomId, clientId: socket.id, author, message });
 }
+
+export function userJoined(subscribeFunction: (user: string) => void) {
+  socket.on('userJoined', subscribeFunction);
+}
+
+export function userLeaved(subscribeFunction: (user: string) => void) {
+  socket.on('userLeaved', subscribeFunction);
+}

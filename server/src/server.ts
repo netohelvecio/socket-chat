@@ -18,9 +18,7 @@ io.on('connection', socket => {
     
     console.log(`Sala: ${socket.roomId} user: ${createRoom.userName}`);
 
-    io.to(socket.roomId).emit('userJoinedData', {
-      user: createRoom.userName,
-    });
+    io.to(socket.roomId).emit('userJoined', createRoom.userName);
 
     io.to(socket.roomId).emit('roomInfo', rooms.get(socket.roomId));
   });
@@ -31,6 +29,11 @@ io.on('connection', socket => {
     const userIndex = rooms.get(socket.roomId)?.users.findIndex(user => user.id === leaveRoom.userId);
 
     if (userIndex) {
+      io.to(socket.roomId).emit(
+        'userLeaved',
+        rooms.get(socket.roomId)?.users.find(user => user.id === leaveRoom.userId)?.name
+      );
+
       rooms.get(socket.roomId)?.users.splice(userIndex, 1);
 
       socket.leave(socket.roomId);

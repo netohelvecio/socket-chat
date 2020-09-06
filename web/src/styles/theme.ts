@@ -7,7 +7,8 @@ export default {
     ghostWhite: '#ECE5DD',
     blue: '#34B7F1',
     chatBackground: '#1B272F',
-    greyGreyDark: '#1C2830',
+    greyGreenDark: '#1C2830',
+    cardStatus: '#1E2A30',
   },
 
   font: {
